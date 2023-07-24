@@ -5,6 +5,7 @@ import { Loading } from '@components/Loading';
 
 import { THEME } from './src/theme';
 import { Routes } from '@routes/index';
+import { AppRoutes } from '@routes/app.routes';
 
 export default function App() {
 

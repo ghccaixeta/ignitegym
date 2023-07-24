@@ -6,7 +6,7 @@ import { Profile } from "@screens/Profile";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
-export function AppRutes() {
+export function AppRoutes() {
     return (
         <Navigator>
             <Screen

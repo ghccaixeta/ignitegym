@@ -3,7 +3,7 @@ import { Text, Center } from 'native-base'
 export function History() {
     return(
         <Center flex={1}>
-            <Text>
+            <Text color={"white"}>
                 History
             </Text>
         </Center>

@@ -3,7 +3,7 @@ import { Text, Center } from 'native-base'
 export function Profile() {
     return(
         <Center flex={1}>
-            <Text>
+            <Text color={"white"}>
                 Profile
             </Text>
         </Center>
