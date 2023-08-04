@@ -8,7 +8,7 @@ export function Home() {
 
     const [groups, setGroups] = useState(['Costas', 'Bíceps', 'Tríceps', 'Ombros'])
     const [exercises, setExercises] = useState(['Puxada Frontal', 'Remada Cruzada', 'Remada Unilateral', 'Levantamento Terra'])
-    const [groupSelected, setGroupSelected] = useState('costa');
+    const [groupSelected, setGroupSelected] = useState('Costas');
 
     return (
         <VStack flex={1}>
@@ -17,7 +17,7 @@ export function Home() {
                 data={groups}
                 keyExtractor={item => item}
                 renderItem={({ item }) => (
-                    <Group name={item} isActive={groupSelected === item} onPress={() => setGroupSelected(item)} />
+                    <Group name={item} isActive={groupSelected.toUpperCase() === item.toUpperCase()} onPress={() => setGroupSelected(item)} />
                 )}
                 horizontal
                 showsHorizontalScrollIndicator={false}
@@ -30,10 +30,10 @@ export function Home() {
 
                 <HStack justifyContent={"space-between"} mb={5}>
                     <Heading color={"gray.200"} fontSize={"md"}>
-                        {exercises.length}
+                        Exercícios
                     </Heading>
                     <Text color={"gray.200"} fontSize={"sm"}>
-                        4
+                        {exercises.length}
                     </Text>
                 </HStack>
                 <FlatList 
