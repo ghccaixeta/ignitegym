@@ -1,7 +1,8 @@
+import { Button } from '@components/Button';
 import { Input } from '@components/Input';
 import { ScreenHeader } from '@components/ScreenHeader'
 import { UserPhoto } from '@components/UserPhoto'
-import { Center, ScrollView, Skeleton, Text, VStack } from 'native-base'
+import { Center, Heading, ScrollView, Skeleton, Text, VStack } from 'native-base'
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 
@@ -49,6 +50,30 @@ export function Profile() {
                     />
 
                 </Center>
+                <VStack px={10} mt={12} mb={9}>
+                    <Heading color={"gray.200"} fontSize={"md"} mb={2}>
+                        Alterar Senha
+                    </Heading>
+                    <Input 
+                        bg={"gray.600"}
+                        placeholder='Senha antiga'
+                        secureTextEntry
+                        ml={0}
+                    />
+                    <Input 
+                        bg={"gray.600"}
+                        placeholder='Nova aenha'
+                        secureTextEntry
+                        ml={0}
+                    />
+                    <Input 
+                        bg={"gray.600"}
+                        placeholder='Confirme a nova senha'
+                        secureTextEntry
+                        ml={0}
+                    />
+                    <Button title='Atualizar' />
+                </VStack>
             </ScrollView>
         </VStack>
     )
