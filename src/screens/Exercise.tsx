@@ -1,4 +1,4 @@
-import { Box, HStack, Heading, Icon, Image, Text, VStack } from 'native-base'
+import { Box, HStack, Heading, Icon, Image, ScrollView, Text, VStack } from 'native-base'
 import { Feather } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
@@ -20,6 +20,8 @@ export function Exercise() {
 
     return (
         <VStack flex={1}>
+
+
             <VStack px={8} bg={"gray.600"} pt={12}>
                 <TouchableOpacity onPress={handleGoBack}>
                     <Icon as={Feather} name='arrow-left' color={"green.500"} size={6} />
@@ -36,36 +38,40 @@ export function Exercise() {
                     </HStack>
                 </HStack>
             </VStack>
-            <VStack p={8}>
-                <Image
-                    w={"full"}
-                    h={80}
-                    source={{ uri: 'https://www.feitodeiridium.com.br/wp-content/uploads/2016/07/remada-unilateral-3.jpg' }}
-                    rounded={'lg'}
-                    mb={3}
-                    resizeMode='cover'
-                />
+            <ScrollView>
 
-                <Box bg={"gray.600"} rounded={"lg"} py={6} px={3}>
-                    <HStack justifyContent={"space-around"} mb={4}>
-                        <HStack>
+                <VStack p={8}>
+                    <Image
+                        w={"full"}
+                        h={80}
+                        source={{ uri: 'https://www.feitodeiridium.com.br/wp-content/uploads/2016/07/remada-unilateral-3.jpg' }}
+                        rounded={'lg'}
+                        mb={3}
+                        resizeMode='cover'
+                    />
 
-                            <SeriesSvg />
-                            <Text ml={3} color={"gray.100"} fontSize={"sm"}>
-                                3 séries
-                            </Text>
+                    <Box bg={"gray.600"} rounded={"lg"} py={6} px={3}>
+                        <HStack justifyContent={"space-around"} mb={4}>
+                            <HStack>
+
+                                <SeriesSvg />
+                                <Text ml={3} color={"gray.100"} fontSize={"sm"}>
+                                    3 séries
+                                </Text>
+                            </HStack>
+                            <HStack>
+
+                                <RepetiotionSvg />
+                                <Text ml={3} color={"gray.100"} fontSize={"sm"}>
+                                    12 Repetições
+                                </Text>
+                            </HStack>
                         </HStack>
-                        <HStack>
+                        <Button title='Marcar cmo realizado' />
+                    </Box>
+                </VStack>
 
-                            <RepetiotionSvg />
-                            <Text ml={3} color={"gray.100"} fontSize={"sm"}>
-                                12 Repetições
-                            </Text>
-                        </HStack>
-                    </HStack>
-                    <Button title='Marcar cmo realizado' />
-                </Box>
-            </VStack>
+            </ScrollView>
         </VStack>
 
     )
