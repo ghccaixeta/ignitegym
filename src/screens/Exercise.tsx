@@ -1,4 +1,4 @@
-import { HStack, Heading, Icon, Text, VStack } from 'native-base'
+import { HStack, Heading, Icon, Image, Text, VStack } from 'native-base'
 import { Feather } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
@@ -33,7 +33,19 @@ export function Exercise() {
                     </HStack>
                 </HStack>
             </VStack>
+            <VStack p={8}>
+                <Image 
+                w={"full"}
+                h={80}
+                source={{ uri: 'https://www.feitodeiridium.com.br/wp-content/uploads/2016/07/remada-unilateral-3.jpg' }}
+                rounded={'lg'}
+                mb={3}
+                resizeMode='cover'
+                 />
+                
+            </VStack>
         </VStack>
+        
     )
 
 }
