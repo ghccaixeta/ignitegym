@@ -1,10 +1,13 @@
-import { HStack, Heading, Icon, Image, Text, VStack } from 'native-base'
+import { Box, HStack, Heading, Icon, Image, Text, VStack } from 'native-base'
 import { Feather } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { AppNavigatorRoutesProps } from '@routes/app.routes';
 
 import BodySvg from '@assets/body.svg'
+import SeriesSvg from '@assets/series.svg'
+import RepetiotionSvg from '@assets/repetitions.svg'
+import { Button } from '@components/Button';
 
 
 
@@ -34,18 +37,37 @@ export function Exercise() {
                 </HStack>
             </VStack>
             <VStack p={8}>
-                <Image 
-                w={"full"}
-                h={80}
-                source={{ uri: 'https://www.feitodeiridium.com.br/wp-content/uploads/2016/07/remada-unilateral-3.jpg' }}
-                rounded={'lg'}
-                mb={3}
-                resizeMode='cover'
-                 />
-                
+                <Image
+                    w={"full"}
+                    h={80}
+                    source={{ uri: 'https://www.feitodeiridium.com.br/wp-content/uploads/2016/07/remada-unilateral-3.jpg' }}
+                    rounded={'lg'}
+                    mb={3}
+                    resizeMode='cover'
+                />
+
+                <Box bg={"gray.600"} rounded={"lg"} py={6} px={3}>
+                    <HStack justifyContent={"space-around"} mb={4}>
+                        <HStack>
+
+                            <SeriesSvg />
+                            <Text ml={3} color={"gray.100"} fontSize={"sm"}>
+                                3 séries
+                            </Text>
+                        </HStack>
+                        <HStack>
+
+                            <RepetiotionSvg />
+                            <Text ml={3} color={"gray.100"} fontSize={"sm"}>
+                                12 Repetições
+                            </Text>
+                        </HStack>
+                    </HStack>
+                    <Button title='Marcar cmo realizado' />
+                </Box>
             </VStack>
         </VStack>
-        
+
     )
 
 }
