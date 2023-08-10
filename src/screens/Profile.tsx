@@ -4,7 +4,7 @@ import { ScreenHeader } from '@components/ScreenHeader'
 import { UserPhoto } from '@components/UserPhoto'
 import { Center, Heading, ScrollView, Skeleton, Text, VStack } from 'native-base'
 import { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Alert, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 
@@ -33,9 +33,11 @@ export function Profile() {
 
                 const uri = photoSelected.assets[0].uri
 
-                const photoInfo = await FileSystem.getInfoAsync(uri)
+                const photoInfo = await FileSystem.getInfoAsync(uri) as FileSystem.FileInfo
 
-                console.log(photoInfo)
+                if(photoInfo.size && (photoInfo.size / 1024 / 1024 > 3)  ){
+                    return Alert.alert("Essa imagem é muito grande. Escolha uma de até 5MB.")
+                }
 
                 setUserPhoto(uri)
             }
