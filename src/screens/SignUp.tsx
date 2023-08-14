@@ -6,13 +6,23 @@ import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
+import { useState } from "react";
 
 export function SignUp() {
+
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordConfirm, setpasswordConfirm] = useState('');
 
     const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
     function handleLogin() {
         navigation.navigate('signIn');
+    }
+
+    function handleSignUp() {
+        console.log({name, email, password, passwordConfirm});
     }
 
     return (
@@ -46,6 +56,7 @@ export function SignUp() {
 
                     <Input
                         placeholder="Nome"
+                        onChangeText={setName}
 
                     />
 
@@ -53,13 +64,21 @@ export function SignUp() {
                         placeholder="E-mail"
                         keyboardType="email-address"
                         autoCapitalize="none"
+                        onChangeText={setEmail}
                     />
                     <Input
                         placeholder="Senha"
                         secureTextEntry
+                        onChangeText={setPassword}
                     />
 
-                    <Button title="Criar e acessar" />
+                    <Input
+                        placeholder="Confirme a senha"
+                        secureTextEntry
+                        onChangeText={setpasswordConfirm}
+                    />
+
+                    <Button title="Criar e acessar" onPress={handleSignUp} />
 
 
                 </Center>
