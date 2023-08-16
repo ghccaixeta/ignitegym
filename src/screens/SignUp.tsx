@@ -10,7 +10,7 @@ import { useForm, Controller } from "react-hook-form";
 
 export function SignUp() {
 
-    const { control } = useForm();
+    const { control, handleSubmit } = useForm();
 
     const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
@@ -18,8 +18,8 @@ export function SignUp() {
         navigation.navigate('signIn');
     }
 
-    function handleSignUp() {
-
+    function handleSignUp(data: any) {
+        console.log(data)
     }
 
     return (
@@ -96,7 +96,7 @@ export function SignUp() {
 
                     <Controller
                         control={control}
-                        name="password"
+                        name="password_confirm"
                         render={({ field: { onChange, value } }) => (
 
                             <Input
@@ -104,6 +104,8 @@ export function SignUp() {
                                 secureTextEntry
                                 onChangeText={onChange}
                                 value={value}
+                                onSubmitEditing={handleSubmit(handleSignUp)}
+                                returnKeyType="send"
                             />
                         )}
                     />
@@ -112,7 +114,7 @@ export function SignUp() {
 
 
 
-                    <Button title="Criar e acessar" onPress={handleSignUp} />
+                    <Button title="Criar e acessar" onPress={handleSubmit(handleSignUp)} />
 
 
                 </Center>
