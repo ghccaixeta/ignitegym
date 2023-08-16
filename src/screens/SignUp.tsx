@@ -138,7 +138,7 @@ export function SignUp() {
 
                 </Center>
 
-                <Button title="Voltar para o login" variant={"outline"} mt={24} onPress={handleLogin} />
+                <Button title="Voltar para o login" variant={"outline"} mt={12} onPress={handleLogin} />
 
 
 
