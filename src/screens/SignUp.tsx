@@ -26,7 +26,7 @@ export function SignUp() {
         navigation.navigate('signIn');
     }
 
-    function handleSignUp(data: FormDataProps )  {
+    function handleSignUp(data: FormDataProps) {
         console.log(data)
     }
 
@@ -75,13 +75,20 @@ export function SignUp() {
                             />
                         )}
                     />
-                     <Text color={"white"}>
+                    <Text color={"white"}>
                         {errors.name?.message}
-                     </Text>
+                    </Text>
 
                     <Controller
                         control={control}
                         name="email"
+                        rules={{
+                            required: 'Informe o e-mail.',
+                            pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                message: 'E-mail inválido'
+                            }
+                        }}
                         render={({ field: { onChange, value } }) => (
 
                             <Input
@@ -94,9 +101,16 @@ export function SignUp() {
                         )}
                     />
 
+                    <Text color={"white"}>
+                        {errors.email?.message}
+                    </Text>
+
                     <Controller
                         control={control}
                         name="password"
+                        rules={{
+                            required: 'Informe a senha.'
+                        }}
                         render={({ field: { onChange, value } }) => (
 
                             <Input
@@ -108,9 +122,16 @@ export function SignUp() {
                         )}
                     />
 
+                    <Text color={"white"}>
+                        {errors.password?.message}
+                    </Text>
+
                     <Controller
                         control={control}
                         name="password_confirm"
+                        rules={{
+                            required: 'Confirme a senha.'
+                        }}
                         render={({ field: { onChange, value } }) => (
 
                             <Input
@@ -124,7 +145,11 @@ export function SignUp() {
                         )}
                     />
 
-                    
+                    <Text color={"white"}>
+                        {errors.password_confirm?.message}
+                    </Text>
+
+
 
 
 
