@@ -9,6 +9,7 @@ import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup'
+import { api } from "@services/api";
 
 type FormDataProps = {
     name: string;
@@ -38,18 +39,25 @@ export function SignUp() {
     }
 
     async function handleSignUp({ name, email, password }: FormDataProps) {
-        const response = await fetch('http://192.168.3.61:3333/users', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name, email, password })
-        })
 
-        const data = await response.json()
+        const respose = await api.post('/users', {name, email, password});
 
-        console.log(data)
+        console.log(respose.data)
+
+        // const response = await fetch('http://192.168.3.61:3333/users', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({ name, email, password })
+        // })
+
+        // const data = await response.json()
+
+        // console.log(data)
+
+
     }
 
     return (
