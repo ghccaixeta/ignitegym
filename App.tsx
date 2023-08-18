@@ -6,7 +6,7 @@ import { Loading } from '@components/Loading';
 import { THEME } from './src/theme';
 import { Routes } from '@routes/index';
 import { AppRoutes } from '@routes/app.routes';
-import { AuthContext } from '@contexts/AuthContext';
+import { AuthContextProvider } from '@contexts/AuthContext';
 
 export default function App() {
 
@@ -21,17 +21,10 @@ export default function App() {
         translucent
       />
 
-      <AuthContext.Provider value={{
-        user:{
-
-          id: '2',
-          name: 'Gustavo Caixeta',
-          email: 'gustavo@email.com',
-          avatar: 'ghccaixeta.png',
-        }
-      }}>
+      <AuthContextProvider>
         {fontsLoaded ? <Routes /> : <Loading />}
-      </AuthContext.Provider>
+      </AuthContextProvider>
+
 
 
     </NativeBaseProvider>
