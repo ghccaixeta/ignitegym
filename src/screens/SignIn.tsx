@@ -39,7 +39,7 @@ export function SignIn() {
 
         try {
 
-            signIn(email,password);
+            await signIn(email,password);
 
         } catch (error) {
 
