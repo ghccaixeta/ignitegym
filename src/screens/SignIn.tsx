@@ -1,4 +1,4 @@
-import { Center, Heading, Image, ScrollView, Text, VStack } from "native-base";
+import { Center, Heading, Image, ScrollView, Text, VStack, useToast } from "native-base";
 
 import LogoSvg from '@assets/logo.svg'
 import BackgroundImg from '@assets/background.png';
@@ -10,6 +10,7 @@ import * as yup from 'yup';
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuth } from "@hooks/useAuth";
+import { AppError } from "@utils/AppError";
 
 type FormDataProps = {
     email: string;
@@ -31,6 +32,8 @@ export function SignIn() {
 
     const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
+    const toast = useToast();
+
     function handleNewAccount() {
         navigation.navigate('signUp');
     }
@@ -43,7 +46,15 @@ export function SignIn() {
 
         } catch (error) {
 
-            console.log(error)
+            const isAppError = error instanceof AppError;
+
+            const title = isAppError ? error.message : 'Não foi possível entrar. Tente novamente mais tarde.'
+
+            toast.show({
+                title,
+                placement: 'top',
+                bgColor: 'red.500'
+            })
 
         }
 
