@@ -11,6 +11,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuth } from "@hooks/useAuth";
 import { AppError } from "@utils/AppError";
+import { useState } from "react";
 
 type FormDataProps = {
     email: string;
@@ -27,6 +28,7 @@ const signInSchema = yup.object({
 
 export function SignIn() {
 
+    const [isLoading, setIsLoading] = useState(false);
 
     const { signIn } = useAuth();
 
@@ -42,6 +44,8 @@ export function SignIn() {
 
         try {
 
+            setIsLoading(true);
+
             await signIn(email,password);
 
         } catch (error) {
@@ -56,6 +60,8 @@ export function SignIn() {
                 bgColor: 'red.500'
             })
 
+        } finally{
+            setIsLoading(false)
         }
 
 
@@ -127,7 +133,7 @@ export function SignIn() {
 
 
 
-                    <Button title="Acessar" onPress={handleSubmit(handleSignIn)} />
+                    <Button title="Acessar" onPress={handleSubmit(handleSignIn)} isLoading={isLoading} />
 
 
                 </Center>
