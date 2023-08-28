@@ -11,6 +11,8 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup'
 import { api } from "@services/api";
 import { AppError } from "@utils/AppError";
+import { useState } from "react";
+import { useAuth } from "@hooks/useAuth";
 
 type FormDataProps = {
     name: string;
@@ -30,6 +32,9 @@ const signUpSchema = yup.object({
 export function SignUp() {
 
     const toast = useToast();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const { signIn } = useAuth();
 
     const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
         resolver: yupResolver(signUpSchema)
@@ -44,12 +49,14 @@ export function SignUp() {
     async function handleSignUp({ name, email, password }: FormDataProps) {
 
         try {
-            
-            const respose = await api.post('/users', {name, email, password});
+            setIsLoading(true);
+            await api.post('/users', {name, email, password});
     
-            console.log(respose.data)
+            await signIn(email,password);
 
         } catch (error) {
+
+            setIsLoading(false);
 
             const isAppError = error instanceof AppError;
 
@@ -158,7 +165,7 @@ export function SignUp() {
                         )}
                     />
 
-                    <Button title="Criar e acessar" onPress={handleSubmit(handleSignUp)} />
+                    <Button title="Criar e acessar" onPress={handleSubmit(handleSignUp)} isLoading={isLoading} />
 
 
                 </Center>
