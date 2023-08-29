@@ -41,7 +41,6 @@ export function Home() {
     async function fetchExercisesByGroup() {
         try {
             const response = await api.get(`/exercises/bygroup/${groupSelected}`);
-            console.log(response.data);
             setExercises(response.data);
         } catch (error) {
             const isAppError = error instanceof AppError;
@@ -95,7 +94,7 @@ export function Home() {
                 <FlatList
                     data={exercises}
                     keyExtractor={item => item.id.toString()}
-                    renderItem={({ item }) => <ExerciseCard onPress={handleOpenExerciseDetails} />}
+                    renderItem={({ item }) => <ExerciseCard onPress={handleOpenExerciseDetails} data={item} />}
                     showsVerticalScrollIndicator={false}
                     _contentContainerStyle={{ paddingBottom: 20 }}
                 />
