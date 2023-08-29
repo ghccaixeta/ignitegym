@@ -1,6 +1,7 @@
 import { ExerciseCard } from '@components/ExerciseCard'
 import { Group } from '@components/Group'
 import { HomeHeader } from '@components/HomeHeader'
+import { ExerciseDTO } from '@dtos/ExerciseDTO'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { AppNavigatorRoutesProps } from '@routes/app.routes'
 import { api } from '@services/api'
@@ -11,7 +12,7 @@ import { useCallback, useEffect, useState } from 'react'
 export function Home() {
 
     const [groups, setGroups] = useState<string[]>([])
-    const [exercises, setExercises] = useState([])
+    const [exercises, setExercises] = useState<ExerciseDTO[]>([])
     const [groupSelected, setGroupSelected] = useState('Costas');
 
     const toast = useToast();
@@ -41,7 +42,7 @@ export function Home() {
         try {
             const response = await api.get(`/exercises/bygroup/${groupSelected}`);
             console.log(response.data);
-            // setExercises(response);
+            setExercises(response.data);
         } catch (error) {
             const isAppError = error instanceof AppError;
             const title = isAppError ? error.message : 'Não foi possível carregar os exercícios.'
@@ -93,7 +94,7 @@ export function Home() {
                 </HStack>
                 <FlatList
                     data={exercises}
-                    keyExtractor={item => item}
+                    keyExtractor={item => item.id.toString()}
                     renderItem={({ item }) => <ExerciseCard onPress={handleOpenExerciseDetails} />}
                     showsVerticalScrollIndicator={false}
                     _contentContainerStyle={{ paddingBottom: 20 }}
