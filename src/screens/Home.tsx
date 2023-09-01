@@ -63,7 +63,7 @@ export function Home() {
     useEffect(() => {
         fetchGroups();
 
-    })
+    },[groupSelected])
 
     useFocusEffect(useCallback(() => {
         fetchExercisesByGroup();
