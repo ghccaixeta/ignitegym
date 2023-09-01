@@ -1,7 +1,7 @@
 import { Box, HStack, Heading, Icon, Image, ScrollView, Text, VStack } from 'native-base'
 import { Feather } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { AppNavigatorRoutesProps } from '@routes/app.routes';
 
 import BodySvg from '@assets/body.svg'
@@ -9,10 +9,16 @@ import SeriesSvg from '@assets/series.svg'
 import RepetiotionSvg from '@assets/repetitions.svg'
 import { Button } from '@components/Button';
 
-
+type RouteParamsProps = {
+    exerciseId: string;
+}
 
 export function Exercise() {
     const navigation = useNavigation<AppNavigatorRoutesProps>();
+
+    const route = useRoute();
+
+    const {exerciseId} = route.params as RouteParamsProps
 
     function handleGoBack() {
         navigation.goBack()
@@ -48,6 +54,7 @@ export function Exercise() {
                         rounded={'lg'}
                         mb={3}
                         resizeMode='cover'
+                        alt='Imagem do exercício'
                     />
 
                     <Box bg={"gray.600"} rounded={"lg"} py={6} px={3}>
