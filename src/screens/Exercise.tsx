@@ -12,19 +12,21 @@ import { AppError } from '@utils/AppError';
 import { api } from '@services/api';
 import { useEffect, useState } from 'react';
 import { ExerciseDTO } from '@dtos/ExerciseDTO';
+import { Loading } from '@components/Loading';
 
 type RouteParamsProps = {
     exerciseId: string;
 }
 
 export function Exercise() {
+    const [isLoading, setIsLoading] = useState(true);
     const [exercise, setExercise] = useState<ExerciseDTO>({} as ExerciseDTO);
     const navigation = useNavigation<AppNavigatorRoutesProps>();
 
     const route = useRoute();
     const toast = useToast();
 
-    const {exerciseId} = route.params as RouteParamsProps
+    const { exerciseId } = route.params as RouteParamsProps
 
     function handleGoBack() {
         navigation.goBack()
@@ -32,9 +34,10 @@ export function Exercise() {
 
     async function fetchExerciseDetails() {
         try {
+            
             const response = await api.get(`/exercises/${exerciseId}`);
             setExercise(response.data);
-            
+
         } catch (error) {
             const isAppError = error instanceof AppError;
             const title = isAppError ? error.message : 'Não foi possível carregar o exercício.'
@@ -44,10 +47,12 @@ export function Exercise() {
                 placement: 'top',
                 bgColor: 'red.500'
             })
+        } finally {
+            setIsLoading(false);
         }
     }
 
-    useEffect(() =>{
+    useEffect(() => {
         fetchExerciseDetails();
     }, [exercise])
 
@@ -73,37 +78,40 @@ export function Exercise() {
             </VStack>
             <ScrollView>
 
-                <VStack p={8}>
-                    <Image
-                        w={"full"}
-                        h={80}
-                        source={{ uri: `${api.defaults.baseURL}/exercise/demo/${exercise.demo}` }}
-                        rounded={'lg'}
-                        mb={3}
-                        resizeMode='cover'
-                        alt='Imagem do exercício'
-                    />
+                {
+                    isLoading ? <Loading /> :
+                        <VStack p={8}>
+                            <Image
+                                w={"full"}
+                                h={80}
+                                source={{ uri: `${api.defaults.baseURL}/exercise/demo/${exercise.demo}` }}
+                                rounded={'lg'}
+                                mb={3}
+                                resizeMode='cover'
+                                alt='Imagem do exercício'
+                            />
 
-                    <Box bg={"gray.600"} rounded={"lg"} py={6} px={3}>
-                        <HStack justifyContent={"space-around"} mb={4}>
-                            <HStack>
+                            <Box bg={"gray.600"} rounded={"lg"} py={6} px={3}>
+                                <HStack justifyContent={"space-around"} mb={4}>
+                                    <HStack>
 
-                                <SeriesSvg />
-                                <Text ml={3} color={"gray.100"} fontSize={"sm"}>
-                                    {exercise.series} séries
-                                </Text>
-                            </HStack>
-                            <HStack>
+                                        <SeriesSvg />
+                                        <Text ml={3} color={"gray.100"} fontSize={"sm"}>
+                                            {exercise.series} séries
+                                        </Text>
+                                    </HStack>
+                                    <HStack>
 
-                                <RepetiotionSvg />
-                                <Text ml={3} color={"gray.100"} fontSize={"sm"}>
-                                    {exercise.repetitions} Repetições
-                                </Text>
-                            </HStack>
-                        </HStack>
-                        <Button title='Marcar cmo realizado' />
-                    </Box>
-                </VStack>
+                                        <RepetiotionSvg />
+                                        <Text ml={3} color={"gray.100"} fontSize={"sm"}>
+                                            {exercise.repetitions} Repetições
+                                        </Text>
+                                    </HStack>
+                                </HStack>
+                                <Button title='Marcar cmo realizado' />
+                            </Box>
+                        </VStack>
+                }
 
             </ScrollView>
         </VStack>
