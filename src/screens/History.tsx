@@ -1,5 +1,6 @@
 import { HistoryCard } from '@components/HistoryCard'
 import { ScreenHeader } from '@components/ScreenHeader'
+import { HistoryByDayDTO } from '@dtos/HistoryByDayDTO';
 import { useFocusEffect } from '@react-navigation/native';
 import { api } from '@services/api';
 import { AppError } from '@utils/AppError';
@@ -12,22 +13,13 @@ export function History() {
     const toast = useToast();
     const [isLoading, setIsLoading] = useState(true);
 
-    const [exercises, setExercises] = useState([
-        {
-            title: '26.08.22',
-            data: ['Puxada Frontal', 'Remada Unilateral'],
-        },
-        {
-            title: '27.08.22',
-            data: ['Puxada Frontal'],
-        }
-    ])
+    const [exercises, setExercises] = useState<HistoryByDayDTO[]>([]);
 
     async function fetchExerciseHistory() {
         try {
             setIsLoading(true)
             const response = await api.get('/history');
-            console.log(response.data);
+            setExercises(response.data);
         } catch (error) {
             const isAppError = error instanceof AppError;
             const title = isAppError ? error.message : 'Não foi obter o histórico.'
@@ -51,7 +43,7 @@ export function History() {
             <ScreenHeader title="Histórico de Exercícios" />
             <SectionList
                 sections={exercises}
-                keyExtractor={item => item}
+                keyExtractor={item => item.id}
                 renderItem={({item}) => (<HistoryCard />)}
                 renderSectionHeader={({section})=>(
                     <Heading color={"gray.100"} fontSize={"md"} mt={10} mb={3} fontFamily={"heading"}>
