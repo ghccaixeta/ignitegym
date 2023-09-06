@@ -17,6 +17,7 @@ type FormDataProps = {
     name: string;
     email: string;
     old_password: string;
+    password: string;
     confirm_password: string;
 
 }
@@ -27,12 +28,17 @@ export function Profile() {
 
     const toast = useToast();
     const { user } = useAuth();
-    const { control } = useForm<FormDataProps>({
-        defaultValues:{
+    const { control, handleSubmit } = useForm<FormDataProps>({
+        defaultValues: {
             name: user.name,
             email: user.email
         }
     });
+
+
+    async function handleUserProfileUpdate(data:FormDataProps) {
+        console.log(data);
+    }
 
     async function handleUserPhotoSelect() {
         setPhotoIsLoading(true)
@@ -139,25 +145,50 @@ export function Profile() {
                     <Heading color={"gray.200"} fontSize={"md"} mb={2} alignSelf={"flex-start"} mt={12} fontFamily={"heading"}>
                         Alterar Senha
                     </Heading>
-                    <Input
-                        bg={"gray.600"}
-                        placeholder='Senha antiga'
-                        secureTextEntry
-                        ml={0}
+                    <Controller
+                        control={control}
+                        name='old_password'
+                        render={({ field: { onChange } }) => (
+
+
+                            <Input
+                                bg={"gray.600"}
+                                placeholder='Senha antiga'
+                                secureTextEntry
+                                onChangeText={onChange}
+                                ml={0}
+                            />
+                        )}
                     />
-                    <Input
-                        bg={"gray.600"}
-                        placeholder='Nova aenha'
-                        secureTextEntry
-                        ml={0}
+                    <Controller
+                        control={control}
+                        name='password'
+                        render={({ field: { onChange } }) => (
+
+
+                            <Input
+                                bg={"gray.600"}
+                                placeholder='Nova aenha'
+                                secureTextEntry
+                                onChangeText={onChange}
+                                ml={0}
+                            />
+                        )}
                     />
-                    <Input
-                        bg={"gray.600"}
-                        placeholder='Confirme a nova senha'
-                        secureTextEntry
-                        ml={0}
+                    <Controller
+                        control={control}
+                        name='confirm_password'
+                        render={({ field: { value, onChange } }) => (
+                            <Input
+                                bg={"gray.600"}
+                                placeholder='Confirme a nova senha'
+                                secureTextEntry
+                                onChangeText={onChange}
+                                ml={0}
+                            />
+                        )}
                     />
-                    <Button title='Atualizar' />
+                    <Button title='Atualizar' onPress={handleSubmit(handleUserProfileUpdate)} />
                 </Center>
 
 
