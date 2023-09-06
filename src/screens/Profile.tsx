@@ -18,18 +18,18 @@ const PHOTO_SIZE = 33;
 type FormDataProps = {
     name: string;
     email: string;
-    old_password: string;
-    password: string;
-    confirm_password: string;
+    old_password: string | undefined;
+    password: string | undefined | null;
+    confirm_password: string | undefined | null;
 
 }
 
 const profileSchema = yup.object({
     name: yup.string().required('Informe o nome.'),
-    email: yup.string().required('Informe o email'),
-    old_password: yup.string().required('Informe a senha antiga.'),
-    password: yup.string().required('Informe a nova senha'),
-    confirm_password: yup.string().required('Confirme a nova senha.'),
+    email: yup.string().required(),
+    old_password: yup.string(),
+    password: yup.string().min(6, 'A senha deve ter pelo menos 6 dígitos').nullable().transform((value) => !!value ? value : null),
+    confirm_password: yup.string().nullable().transform((value) => !!value ? value : null).oneOf([yup.ref('password'), ''], 'As senhas não conferem.'),
 })
 
 export function Profile() {
