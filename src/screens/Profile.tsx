@@ -29,7 +29,15 @@ const profileSchema = yup.object({
     email: yup.string().required(),
     old_password: yup.string(),
     password: yup.string().min(6, 'A senha deve ter pelo menos 6 dígitos').nullable().transform((value) => !!value ? value : null),
-    confirm_password: yup.string().nullable().transform((value) => !!value ? value : null).oneOf([yup.ref('password'), ''], 'As senhas não conferem.'),
+    confirm_password: yup.string()
+    .nullable()
+    .transform((value) => !!value ? value : null)
+    .oneOf([yup.ref('password'), ''], 'As senhas não conferem.')
+    .when('password',{
+        is: (Field: any) => Field,
+        then: (schema) =>
+			schema.nullable().required('Confirme a senha.'),
+    })
 })
 
 export function Profile() {
