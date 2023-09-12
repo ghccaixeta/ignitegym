@@ -11,6 +11,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { useAuth } from '@hooks/useAuth';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup'
+import { api } from '@services/api';
+import { AppError } from '@utils/AppError';
 
 
 const PHOTO_SIZE = 33;
@@ -30,17 +32,18 @@ const profileSchema = yup.object({
     old_password: yup.string(),
     password: yup.string().min(6, 'A senha deve ter pelo menos 6 dígitos').nullable().transform((value) => !!value ? value : null),
     confirm_password: yup.string()
-    .nullable()
-    .transform((value) => !!value ? value : null)
-    .oneOf([yup.ref('password'), ''], 'As senhas não conferem.')
-    .when('password',{
-        is: (Field: any) => Field,
-        then: (schema) =>
-			schema.nullable().required('Confirme a senha.'),
-    })
+        .nullable()
+        .transform((value) => !!value ? value : null)
+        .oneOf([yup.ref('password'), ''], 'As senhas não conferem.')
+        .when('password', {
+            is: (Field: any) => Field,
+            then: (schema) =>
+                schema.nullable().required('Confirme a senha.'),
+        })
 })
 
 export function Profile() {
+    const [isUpdating, setIsUpdating] = useState(false);
     const [photoIsLoading, setPhotoIsLoading] = useState(false);
     const [userPhoto, setUserPhoto] = useState('https://github.com/ghccaixeta.png');
 
@@ -55,8 +58,32 @@ export function Profile() {
     });
 
 
-    async function handleUserProfileUpdate(data:FormDataProps) {
-        console.log(data);
+    async function handleUserProfileUpdate(data: FormDataProps) {
+        try {
+            setIsUpdating(true);
+
+            await api.put('/users', data)
+
+            toast.show({
+                title: 'Perfil atualizado com sucesso.',
+                placement: 'top',
+                bgColor: 'green.500'
+            })
+
+        } catch (error) {
+            const isAppError = error instanceof AppError;
+
+            const title = isAppError ? error.message : 'Erro ao atualizar perfil.';
+
+            toast.show({
+                title,
+                placement: 'top',
+                bgColor: 'red.500'
+            })
+
+        } finally {
+            setIsUpdating(false);
+        }
     }
 
     async function handleUserPhotoSelect() {
@@ -212,7 +239,7 @@ export function Profile() {
                             />
                         )}
                     />
-                    <Button title='Atualizar' onPress={handleSubmit(handleUserProfileUpdate)} />
+                    <Button title='Atualizar' onPress={handleSubmit(handleUserProfileUpdate)} isLoading={isUpdating} />
                 </Center>
 
 
