@@ -136,13 +136,18 @@ export function Profile() {
                 const userPhotoUploadForm = new FormData();
                 userPhotoUploadForm.append('avatar', photoFile)
 
-                await api.patch('/users/avatar', userPhotoUploadForm, {
+                const avatarUpdatedResponse = await api.patch('/users/avatar', userPhotoUploadForm, {
                     headers:{
                         accept: 'application/json',
                         'Content-Type': 'multipart/form-data'
                     },
                     
                 } );
+
+                const userUpdated = user;
+                userUpdated.avatar = avatarUpdatedResponse.data.avatar;
+                updateUserProfile(userUpdated);
+
 
                 toast.show({
                     title: 'Foto atualizada!',
